@@ -6,7 +6,9 @@ import "./YourToken.sol";
 
 contract Vendor is Ownable {
 
-  //event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
+  event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
+
+  uint public constant tokensPerEth = 100;
 
   YourToken public yourToken;
 
@@ -15,6 +17,15 @@ contract Vendor is Ownable {
   }
 
   // ToDo: create a payable buyTokens() function:
+  
+  function buyTokens() external payable {
+
+    uint amountOfTokens = tokensPerEth * msg.value;
+
+    yourToken.transfer(msg.sender, amountOfTokens);
+
+    emit BuyTokens(msg.sender, msg.value, amountOfTokens);
+  }
 
   // ToDo: create a withdraw() function that lets the owner withdraw ETH
 
