@@ -38,4 +38,13 @@ contract Vendor is Ownable {
 
   // ToDo: create a sellTokens(uint256 _amount) function:
 
+  function sellTokens(uint256 _amount) external {
+
+    yourToken.transferFrom(msg.sender, address(this), _amount);
+
+    //added uint specification for each element in the division to avoid having weird floats, not sure what the problem is(found solution on stackoverflow)"
+    payable(msg.sender).transfer(uint(_amount) / uint(tokensPerEth));
+
+  }
+
 }
