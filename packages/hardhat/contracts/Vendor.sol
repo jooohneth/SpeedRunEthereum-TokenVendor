@@ -7,6 +7,7 @@ import "./YourToken.sol";
 contract Vendor is Ownable {
 
   event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
+  event SellTokens(address seller, uint256 amountOfETH, uint256 amountOfTokens);
 
   uint public constant tokensPerEth = 100;
 
@@ -44,6 +45,9 @@ contract Vendor is Ownable {
 
     //added uint specification for each element in the division to avoid having weird floats, not sure what the problem is(found solution on stackoverflow)"
     (bool success, ) = msg.sender.call{value: uint(_amount) / uint(tokensPerEth)}("");
+    require(success, "Transaction failed!");
+
+    emit SellTokens(msg.sender, uint(_amount) / uint(tokensPerEth), _amount);
 
   }
 
